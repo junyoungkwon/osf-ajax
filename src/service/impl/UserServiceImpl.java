@@ -34,4 +34,13 @@ public class UserServiceImpl implements UserService {
 		return udao.updateUser(user);
 	}
 
+	@Override
+	public int login(Map<String, String> user) {
+		Map<String, String> userMap =udao.selectUser(user);
+		if(userMap != null) {
+			return 1;
+		}
+		return 0;
+	}
+
 }

@@ -42,7 +42,7 @@ public class ViewResolverServlet extends HttpServlet {
 		}else {
 			request.setAttribute("list", normalList);
 		}
-		
+		System.out.println(uri);
 		RequestDispatcher rd = request.getRequestDispatcher(uri);
 		rd.forward(request, response);
 	}
