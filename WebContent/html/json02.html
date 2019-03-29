@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JSON02 페이지 입니다.</title>
+</head>
+<body>
+	<script>
+		var jsonStr = "{\"key\":1}";
+		var m = JSON.parse(jsonStr);
+		// 이렇게 하면 parsing을 해서 objeect 로 리턴을 함 
+		m.key2=2;
+		console.log(m);
+		var m2 = {key:1,key2:3,key3:4};
+		console.log(m2);
+	</script>
+</body>
+</html>

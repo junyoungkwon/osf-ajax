@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Json03입니다.</title>
+</head>
+<body>
+	<script>
+		function goAjax(){
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', '/ajax',false);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					document.querySelector('#rDiv').innerHTMl +=xhr.response;
+				}
+			}
+			// 이 전에는 실행은 아니고,, 그냥 준비만 하는 단계입니다.
+			xhr.send();
+			// 이게 보내는 단계 입니다.
+		}
+	</script>
+	<form method="get" action="/ajax">
+		<button>전송</button>
+	</form>
+	<button onClick="goAjax()">goAJAX</button>
+	<div id="rDiv">
+	
+	</div>
+	</body>
+</html>

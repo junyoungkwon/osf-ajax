@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>WEB_INF에 접근해 보자!</title>
+</head>
+<body>
+<script>
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET','/views');
+	xhr.readystatechange = function(){
+		if(xhr.readyState==4 && xhr.status==200){
+			alert(xhr.response);
+		}
+		alert(xhr.response);
+	}
+	xhr.send();
+	// 이거슨 안됩니다.
+</script>
+</body>
+</html>
