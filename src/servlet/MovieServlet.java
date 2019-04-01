@@ -47,9 +47,9 @@ public class MovieServlet extends HttpServlet {
 				movie.put("mi_national", request.getParameter("mi_national"));
 				movie.put("mi_vendor", request.getParameter("mi_vendor"));
 				movie.put("mi_director", request.getParameter("mi_director"));
+				System.out.println(movie);
 			}
 		}
-		doGet(request, response);
 	}
 
 }
