@@ -12,15 +12,30 @@ import dao.MovieDAO;
 import db.DBCon;
 
 public class MovieDAOImpl implements MovieDAO {
-	private String selectMovieList = 
-			"select mi_num, mi_name, mi_year, mi_national, mi_vendor, mi_director from movie_info";
+	private String selectMovieList = "select mi_num, mi_name, mi_year, mi_national, mi_vendor, mi_director from movie_info";
+	private String insertMovie = "insert into movie_info values(seq_mi_num.nextval,?,?,?,?,?)";
+
+	public int insertMovie(Map<String, String> movie) {
+		try {
+			PreparedStatement ps = DBCon.getCon().prepareStatement(insertMovie);
+			ps.setString(1, movie.get("mi_name"));
+			ps.setString(2, movie.get("mi_year"));
+			ps.setString(3, movie.get("mi_national"));
+			ps.setString(4, movie.get("mi_vendor"));
+			ps.setString(5, movie.get("mi_director"));
+			return ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
 	public List<Map<String, String>> selectMovieList() {
 		try {
 			PreparedStatement ps = DBCon.getCon().prepareStatement(selectMovieList);
 			ResultSet rs = ps.executeQuery();
-			List<Map<String,String>> movieList = new ArrayList<>();
-			while(rs.next()){
+			List<Map<String, String>> movieList = new ArrayList<>();
+			while (rs.next()) {
 				Map<String, String> movie = new HashMap<>();
 				movie.put("mi_num", rs.getString("mi_name"));
 				movie.put("mi_name", rs.getString("mi_name"));
@@ -35,11 +50,9 @@ public class MovieDAOImpl implements MovieDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 		return null;
 	}
-
-
 
 //	private String selectMovie = selectMovieList + " where mi_num=? AND mi_name=?";
 //	private String insertMovie = "insert int movie_list"
@@ -48,22 +61,6 @@ public class MovieDAOImpl implements MovieDAO {
 //	private String deleteMovie = "delete from movie_list where mi_num=?";
 //	private String updateMoive = "update movie_list set(mi_name=?, mi_year=?, mi_national=?, mi_vendor=?, mi_director=? where mi_num=?";
 
-	@Override
-	public int insertMovie(Map<String, String> user) {
-//		try {
-//			PreparedStatement ps = DBCon.getCon().prepareStatement(insertMovie);
-//			ps.setString(1, user.get("mi_name"));
-//			ps.setString(2, user.get("mi_year"));
-//			ps.setString(3, user.get("mi_national"));
-//			ps.setString(4, user.get("mi_vendor"));
-//			ps.setString(5, user.get("mi_director"));
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			DBCon.conClose();
-//		}
-		return 0;
-	}
 
 	@Override
 	public Map<String, String> selectMovie(Map<String, String> user) {
@@ -84,4 +81,3 @@ public class MovieDAOImpl implements MovieDAO {
 	}
 
 }
-

@@ -26,7 +26,7 @@
 	</table>
 	<input type="hidden" name="cmd" value="login">
 </form>
-<div align="center">
+<div align="left">
 	<a href="/views/user/join" align="center">회원가입</a>
 </div>
 </c:if>

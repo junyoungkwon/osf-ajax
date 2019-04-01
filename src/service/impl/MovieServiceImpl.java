@@ -13,6 +13,11 @@ public class MovieServiceImpl implements service.MovieService {
 		
 		return movieDAO.selectMovieList();
 	}
+	@Override
+	public int insertMovie(Map<String, String> movie) {
+		
+		return movieDAO.insertMovie(movie);
+	}
 
 }
 
