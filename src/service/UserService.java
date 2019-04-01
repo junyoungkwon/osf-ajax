@@ -15,7 +15,9 @@ public interface UserService {
 	
 	public int updateUser(Map<String, String> user);
 	
-	public int login(Map<String, String> user);
+	public Map<String, String> login(Map<String, String> user);
+
+	public Map<String, String> login(String uiId, String uiPwd);
 	
 	
 }

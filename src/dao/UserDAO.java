@@ -14,8 +14,5 @@ public interface UserDAO {
 	public int deleteUser(Map<String, String> user);
 	
 	public int updateUser(Map<String, String> user);
-	
-	
-	
-	
+		
 }

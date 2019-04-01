@@ -35,12 +35,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int login(Map<String, String> user) {
-		Map<String, String> userMap =udao.selectUser(user);
-		if(userMap != null) {
-			return 1;
-		}
-		return 0;
+	public Map<String, String> login(Map<String, String> user) {
+		return udao.selectUser(user);
+	}
+
+	@Override
+	public Map<String, String> login(String uiId, String uiPwd) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
