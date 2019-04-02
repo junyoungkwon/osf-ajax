@@ -1,3 +1,4 @@
+    
 package servlet;
 
 import java.io.IOException;
@@ -44,10 +45,7 @@ public class UserServlet extends HttpServlet {
 		}else if("login".equals(cmd)) {
 			String uiId = request.getParameter("ui_id");
 			String uiPwd = request.getParameter("ui_pwd");
-			Map<String,String> user = new HashMap<>();
-			user.put("uiId",uiId);
-			user.put("uiPwd",uiPwd);
-			user = us.login(user);
+			Map<String,String> user = us.login(uiId, uiPwd);
 			request.setAttribute("msg","아이디나 비밀번호가 잘못되었습니다.");
 			if(user!=null) {
 				HttpSession session = request.getSession();
