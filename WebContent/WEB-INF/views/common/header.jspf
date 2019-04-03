@@ -3,7 +3,3 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var = "rPath" value = "${pageContext.request.contextPath}"/>
-pageContext : ${pageContextScope.rPath}<br>
-request : ${requestScope.rPath}<br>
-session : ${sessionScope.rPath}<br>
-application : ${applicationScope.rPath}<br>

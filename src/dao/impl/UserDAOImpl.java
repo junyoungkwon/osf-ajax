@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			DBCon.close();
+			DBCon.conClose();
 		}
 		
 		return 0;
@@ -50,7 +50,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			DBCon.close();
+			DBCon.conClose();
 		}
 		return null;
 	}

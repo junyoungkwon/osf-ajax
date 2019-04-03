@@ -39,12 +39,16 @@
 		<servlet-name>MovieServlet</servlet-name>
 		<url-pattern>/movie/*</url-pattern>
 	</servlet-mapping>
-	
-<servlet-mapping>
+
+	<servlet>
+		<servlet-name>AJAXMovieServlet</servlet-name>
+		<servlet-class>servlet.AJAXMovieServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
 		<servlet-name>AJAXMovieServlet</servlet-name>
 		<url-pattern>/am/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<jsp-config>
 		<jsp-property-group>
 			<url-pattern>*.jsp</url-pattern>
@@ -64,7 +68,7 @@
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
-	
-	
-	
+
+
+
 </web-app>

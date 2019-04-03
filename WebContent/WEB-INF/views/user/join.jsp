@@ -20,7 +20,7 @@
 		</tr>
 		<tr align="center">
 			<th>비밀번호</th>
-			<td><input type="password" name="ui_pwd" id="ui_pwd"></td>
+			<td><input type="password" name="ui_password" id="ui_password"></td>
 		</tr>
 		<tr align="center">
 			<th>이메일</th>

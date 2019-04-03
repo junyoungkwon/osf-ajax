@@ -1,11 +1,11 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,65 +15,76 @@ import service.MovieService;
 import service.impl.MovieServiceImpl;
 import utils.Command;
 
-@WebServlet("/MovieSerlvet")
 public class MovieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private MovieService ms = new MovieServiceImpl();
-
+	private MovieService movieService = new MovieServiceImpl();
+	
+	
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String cmd = Command.getCmd(request);
-		if ("list".equals(cmd)) {
-			request.setAttribute("list", ms.selectMovieList());
-			RequestDispatcher rd = request.getRequestDispatcher("/views/movie/movie_list"); // view servlet 들렸다감
-			rd.forward(request, response);
-		} else {
+		if("list".equals(cmd)) {
+			request.setAttribute("list",movieService.selectMovieList());
+			String url = "/views/movie/movie_list";
+			Command.goPage(request, response, url);
+			return;
+		}else {
 			try {
 				int miNum = Integer.parseInt(cmd);
-				request.setAttribute("movie", ms.selectMovieByMiNum(miNum));
-				RequestDispatcher rd = request.getRequestDispatcher("/viwes/movie/view");
+				request.setAttribute("movie", movieService.selectMovieByMiNum(miNum));
+				RequestDispatcher rd = request.getRequestDispatcher("/views/movie/view");
 				rd.forward(request, response);
-			} catch (Exception e) {
+				return;
+			}catch( Exception e) {
 				throw new ServletException("올바른 상세조회 값이 아닙니다.");
 			}
 		}
-	}
-
+	}	
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		String cmd = Command.getCmd(request);
-
-		if ("insert".equals(cmd)) {
+		if("insert".equals(cmd)) {
 			HttpSession hs = request.getSession();
-			if (hs.getAttribute("user") == null) {
-				Command.goResultPage(request, response, "/", "로그인하세요");
+			if(hs.getAttribute("user")==null) {
+				String url = "/";
+				String msg = "로그인을 하세요.";
+				Command.goResultPage(request,response,url,msg);
 				return;
 			}
-
 			Map<String,String> movie = Command.getSingleMap(request);
-			String msg = "영화등록실패!";
-			String url = "/movie/list";
-		
-			if (ms.insertMovie(movie) == 1) {
-				request.setAttribute("msg", "영화등록성공!");
+			String msg = "등록이 실패하였습니다.";
+			if(movieService.insertMovie(movie)==1) {
+				msg = "등록이 성공하였습니다.";
+				String url = "/movie/list";
+				Command.goResultPage(request, response, url, msg);
+				return;
 			}
-			request.setAttribute("url", "/movie/list");
-			RequestDispatcher rd = request.getRequestDispatcher("/views/msg/result");
-			rd.forward(request, response);
-		} else if ("delete".equals(cmd)) {
+		}else if("delete".equals(cmd)) {
 			HttpSession hs = request.getSession();
-			if (hs.getAttribute("user") == null) {
-				Command.goResultPage(request, response, "/", "로그인하세요");
+			if(hs.getAttribute("user")==null){
+				String msg="로그인을 하세요.";
+				String url = "/";
+				Command.goResultPage(request, response, url, msg);
 				return;
 			}
 			int miNum = Integer.parseInt(request.getParameter("mi_num"));
 			String msg = "삭제에 실패하였습니다.";
-					String url="/movie/" + miNum;
-			if (ms.deleteMovie(miNum) == 1) {
-				msg = "삭제에 성공하였습니다.";
-				url="/movie/list";
+			String url = "/movie/"+miNum;
+			request.setAttribute("msg","삭제에 실패하였습니다. ");
+			request.setAttribute("url","/movie"+miNum);
+			if(movieService.deleteMovie(miNum)==1) {
+				msg= "삭제에 성공하였습니다.";
+				url = "/movie/list";
+				Command.goResultPage(request, response, url, msg);
+				return;
+			}else {
+				Command.goResultPage(request, response, url, msg);
+				return;
 			}
-			Command.goResultPage(request, response, url, msg);
 		}
 	}
 }

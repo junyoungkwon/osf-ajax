@@ -2,11 +2,11 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +18,6 @@ import service.MovieService;
 import service.impl.MovieServiceImpl;
 import utils.Command;
 
-@WebServlet("/MovieSerlvet")
 public class AJAXMovieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MovieService ms = new MovieServiceImpl();
@@ -56,33 +55,37 @@ public class AJAXMovieServlet extends HttpServlet {
 			}
 
 			Map<String, String> movie = Command.getSingleMap(request);
-			String msg = "영화등록실패!";
-			String url = "/movie/list";
-
-			request.setAttribute("msg", "영화등록실패!");
+			Map<String,String> rMap = new HashMap<>();
+			rMap.put("msg", "등록에 실패하였습니다.");
+			rMap.put("url", "/views/ajax/movie/list");
 			if (ms.insertMovie(movie) == 1) {
-				request.setAttribute("msg", "영화등록성공!");
+				rMap.put("msg","등록에 성공하였습니다.");
 			}
-			request.setAttribute("url", "/movie/list");
-			RequestDispatcher rd = request.getRequestDispatcher("/views/msg/result");
-			rd.forward(request, response);
+			Command.printJSON(response, rMap);
+//			request.setAttribute("url", "/movie/list");
+//			RequestDispatcher rd = request.getRequestDispatcher("/views/msg/result");
+//			rd.forward(request, response);
 		} else if ("delete".equals(cmd)) {
 			HttpSession hs = request.getSession();
+			Map<String,String> rMap = new HashMap<>();
 			if (hs.getAttribute("user") == null) {
-				request.setAttribute("msg", "로그인하세요");
-				request.setAttribute("url", "/");
-				RequestDispatcher rd = request.getRequestDispatcher("/viwes/movie/view");
-				rd.forward(request, response);
-				return;
+				rMap.put("msg", "로그인하세요");
+				rMap.put("url", "/");
+				Command.printJSON(response, rMap);
 			}
-			int miNum = Integer.parseInt(request.getParameter("mi_num"));
-			request.setAttribute("msg", "삭제에 실패하였습니다.");
-			request.setAttribute("url", "/movie/" + miNum);
-			if (ms.deleteMovie(miNum) == 1) {
-				request.setAttribute("msg", "삭제에 성공하였습니다.");
-				request.setAttribute("url", "/movie/" + miNum);
-			}
-
 		}
-	}
+			int miNum = Integer.parseInt(request.getParameter("mi_num"));
+			Map<String,String> rMap = new HashMap<>();
+			rMap.put("msg", "삭제에 실패하였습니다.");
+			rMap.put("url", "/views/ajax/movie/list");
+			if (ms.deleteMovie(miNum) == 1) {
+				rMap.put("msg", "삭제에 성공하였습니다.");
+			}
+			Command.printJSON(response,rMap);
+			
+//			위의 Command가 없었던 경우 아래와 같이
+//			response.setContentType("test/html;charset=utf-8");
+//			PrintWriter pw = response.getWriter();
+//			pw.println(gson.toJson(rMap));
+		}
 }

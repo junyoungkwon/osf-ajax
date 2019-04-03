@@ -25,13 +25,11 @@ public class AJAXServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		// application/json으로 쓰는게 원래는 맞음.
 		PrintWriter pw = response.getWriter();
-		Map<String, String> user = new HashMap<String, String>();
+		Map<String, String> user = new HashMap<>();
 		user.put("name", "홍길동");
 		user.put("age", "33");
 		pw.print(gson.toJson(user));
-		
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
