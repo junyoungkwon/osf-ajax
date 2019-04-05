@@ -80,6 +80,9 @@ public class FileServiceImpl implements FileService {
 					targetCnt += 10000;
 				}
 			}
+			totalCnt += fdao.insertAddressList(addrList);
+			addrList.clear();
+			targetCnt += 10000;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
